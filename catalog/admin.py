@@ -9,6 +9,7 @@ from .models import Book, BookInstance, Author, Genre, Language
 # admin.site.register(Genre)
 # admin.site.register(Language)
 
+
 class BookInstanceInline(admin.TabularInline):
     model = BookInstance
 
@@ -21,6 +22,7 @@ class BookInline(admin.TabularInline):
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'display_genre')
     inlines = [BookInstanceInline]
+
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
