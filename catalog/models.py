@@ -42,6 +42,8 @@ class BookInstance(models.Model):
             return True
         return False
 
+    permissions = (("can_mark_returned", "Set book as returned"),)
+
 
 class Author(models.Model):
     """Model representing an author."""
