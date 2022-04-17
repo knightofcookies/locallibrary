@@ -1,4 +1,3 @@
-from turtle import title
 from django.db import models
 from django.urls import reverse  # Used to generate URLs by reversing the URL patterns
 import uuid  # Required for unique book instances
@@ -8,7 +7,8 @@ from datetime import date
 
 class BookInstance(models.Model):
     """Model representing a specific copy of a book (i.e. that can be borrowed from the library)."""
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular book across whole library')
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+                          help_text='Unique ID for this particular book across whole library')
     book = models.ForeignKey('Book', on_delete=models.RESTRICT, null=True)
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
@@ -31,6 +31,7 @@ class BookInstance(models.Model):
 
     class Meta:
         ordering = ['due_back']
+        permissions = (("can_mark_returned", "Set book as returned"),)
 
     def __str__(self):
         """String for representing the Model object."""
@@ -41,8 +42,6 @@ class BookInstance(models.Model):
         if self.due_back and date.today() > self.due_back:
             return True
         return False
-
-    permissions = (("can_mark_returned", "Set book as returned"),)
 
 
 class Author(models.Model):
@@ -68,8 +67,8 @@ class Genre(models.Model):
     """Model representing a book genre."""
     name = models.CharField(max_length=200, help_text="Enter a book genre")
 
-    def __str__(self) -> str:
-        """"String for representing the Model object."""
+    def __str__(self):
+        """String for representing the Model object."""
         return self.name
 
 
@@ -87,7 +86,7 @@ class Book(models.Model):
                             '/content/what-isbn">ISBN number</a>')
 
     # ManyToManyField used because genre can contain many books. Books can cover many genres.
-    # Genre class has already been defined so we can specify the object above.
+    # Genre class has already been defined, so we can specify the object above.
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
     
@@ -100,7 +99,7 @@ class Book(models.Model):
         return reverse('book-detail', args=[str(self.id)])
 
     def display_genre(self):
-        """"Creates a string for the Genre."""
+        """Creates a string for the Genre."""
         return ', '.join(genre.name for genre in self.genre.all()[:3])
 
 
@@ -108,6 +107,6 @@ class Language(models.Model):
     """"Model representing a language."""
     name = models.CharField(max_length=50, blank=True, null=True)
 
-    def __str__(self) -> str:
+    def __str__(self):
         """String for representing the Model object."""
         return self.name

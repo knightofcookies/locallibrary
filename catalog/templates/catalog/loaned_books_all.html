@@ -13,9 +13,12 @@
       <li>Book : {{ book.title }}</li>
       <li>Loaned to : {{ book.borrower }}</li>
       <li>Due back : {{ book.due_back }}</li>
+      {% if perms.catalog.can_mark_returned %}
+        <a href="{% url 'renew-book-librarian' bookinst.id %}">Renew</a>
+      {% endif %}
     {% endfor %}
     </ul>
   {% else %}
-    <<p>There are no books on loan at the moment.</p>
+    <p>There are no books on loan at the moment.</p>
   {% endif %}
 {% endblock %}

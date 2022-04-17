@@ -2,11 +2,14 @@ import datetime
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from .models import BookInstance
 
 
-class RenewBookForm(forms.Form):
-    renewal_date = forms.DateField(help_text="Enter a date between now and"
-                                   "4 weeks (default 3).")
+class RenewBookForm(forms.ModelForm):
+    model = BookInstance
+    fields = ['due_back']
+    labels = {'due_back': _('Renewal date')}
+    help_texts = {'due_back': _('Enter a date between now and 4 weeks (default 3).')}
 
     def clean_renewal_date(self):
         data = self.cleaned_data['renewal_date']
