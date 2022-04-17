@@ -10,11 +10,11 @@
     <ul>
     {% for book in books_list %}
       <hr>
-      <li>Book : {{ book.title }}</li>
+      <li>Book : {{ book.book }}</li>
       <li>Loaned to : {{ book.borrower }}</li>
       <li>Due back : {{ book.due_back }}</li>
       {% if perms.catalog.can_mark_returned %}
-        <a href="{% url 'renew-book-librarian' bookinst.id %}">Renew</a>
+        <a href="{% url 'renew-book-librarian' book.id %}">Renew</a>
       {% endif %}
     {% endfor %}
     </ul>

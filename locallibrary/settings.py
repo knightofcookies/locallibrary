@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'locallibrary.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'database.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
