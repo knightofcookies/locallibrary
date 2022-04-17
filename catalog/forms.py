@@ -12,7 +12,7 @@ class RenewBookModelForm(forms.ModelForm):
         labels = {'due_back': _('renewal date')}
         help_texts = {'due_back': _('Enter a date between now and 4 weeks (default 3).')}
 
-    def clean_renewal_date(self):
+    def clean_due_back(self):
         data = self.cleaned_data['due_back']
 
         # Check if a date is not in the past.
@@ -20,7 +20,7 @@ class RenewBookModelForm(forms.ModelForm):
             raise ValidationError(_('Invalid date - renewal in the past'))
 
         # Check if a date is in the allowed range (+4 weeks from today).
-        if data > datetime.date.today + datetime.timedelta(weeks=4):
+        if data > datetime.date.today() + datetime.timedelta(weeks=4):
             raise ValidationError(_('Invalid date - renewal more than 4 weeks'
                                     'ahead'))
 
